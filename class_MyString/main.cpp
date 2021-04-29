@@ -1,6 +1,15 @@
-// class_MyString.cpp : This file contains the 'main' function. Program execution begins and ends there#include <iostream>
+#include <iostream>
+#include "MyString.h"
+using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    MyString str1("Hello");
+    MyString str2("e");
+    MyString str3("AAA");
+
+
+    str1 = str1.contextsub(str2, str3);
+    str1.print();
+    return 0;
 }
