@@ -1,4 +1,4 @@
-#include "MyString.h"
+#include "class_MyString.h"
 #include <iostream>
 using namespace std;
 
@@ -22,7 +22,7 @@ void MyString::ft_strlcpy(char* dst, const char* src, int size, int n)
 
 MyString::MyString()
 {
-    str = NULL;
+    str = nullptr;
     length = 0;
 }
 
@@ -111,10 +111,12 @@ MyString MyString::remsubstr(MyString str_new)
 
 MyString MyString::substitution(MyString str_new, int pos)
 {
+    if (pos < 0 || pos > length)
+        return (*this);
     MyString res(this->length + str_new.length);
-    ft_strlcpy(res.str, this->str, pos - 2, 0);
-    ft_strlcpy(res.str, str_new.str, str_new.length, pos - 1);
-    ft_strlcpy(res.str, this->str + pos - 1, this->length - pos + 1, pos - 1 + str_new.length);
+    ft_strlcpy(res.str, this->str, pos - 1, 0);
+    ft_strlcpy(res.str, str_new.str, str_new.length, pos);
+    ft_strlcpy(res.str, this->str + pos, this->length - pos + 2, pos + str_new.length);
     return res;
 }
 
@@ -136,13 +138,15 @@ MyString MyString::contextsub(MyString str1, MyString str2)
 
 void MyString::merge(MyString& str1, MyString& str2, int pos)
 {
+    if ((this->str == nullptr) || (pos < 0) || (pos > this->length))
+        return;
     if (str1.str != 0)
         delete[](str1.str);
     if (str2.str != 0)
         delete[](str2.str);
 
-    str1.length = pos - 1;
-    str2.length = this->length - pos + 1;
+    str1.length = pos;
+    str2.length = this->length - pos + 2;
 
     str1.str = new char[str1.length + 1];
     str2.str = new char[str2.length + 1];
@@ -151,7 +155,7 @@ void MyString::merge(MyString& str1, MyString& str2, int pos)
     str2.str[str2.length] = '\0';
 
     ft_strlcpy(str1.str, this->str, str1.length - 1, 0);
-    ft_strlcpy(str2.str, this->str + pos - 1, str2.length, 0);
+    ft_strlcpy(str2.str, this->str + pos, str2.length, 0);
 }
 
 
